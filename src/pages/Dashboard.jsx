@@ -4,47 +4,72 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import logo from "../assets/chlogo.png";
 import Orders from "../components/Orders";
+
+import { Link } from "react-router-dom";
+import { logout } from "../features/auth/authSlice";
 const Dashboard = () => {
   const { user } = useSelector((state) => state.auth);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (!user) {
       navigate("/login");
-      return toast.error("Please login");
+      toast.error("Please login");
     }
-    if (user?.isPaid == "nope") {
-      navigate("/login");
-      return toast.error("Not an admin account");
-    }
-  }, [user]);
+  }, []);
+
+  const handleLogout = () => {
+    dispatch(logout());
+    navigate("/login");
+  };
 
   return (
     <div>
-      {/* wrapper */}
-      <div className=" px-[10px] sm:px-[3em] pt-[1em]">
-        {/* topbar */}
-        <div className="flex justify-between items-center">
-          <div>
-            {/* <h2>CHILLTONS</h2> */}
-            <img src={logo} alt="" className="w-20 h-20" />
+      {user?.isPaid == "yes" ? (
+        <>
+          {/* wrapper */}
+          <div className=" px-[10px] sm:px-[3em] pt-[1em]">
+            {/* topbar */}
+            <div className="flex justify-between items-center gap-3 flex-wrap">
+              <div>
+                {/* <h2>CHILLTONS</h2> */}
+                <img src={logo} alt="" className="w-20 h-20" />
+              </div>
+              <div>
+                <ul className="flex items-start gap-[15px]">
+                  <Link to="/food">
+                    <li>FOOD</li>
+                  </Link>
+                  <Link to="/drinks">
+                    <li>DRINKS</li>
+                  </Link>
+                  <Link to="/users">
+                    <li>USERS</li>
+                  </Link>
+                  <p onClick={handleLogout} className="cursor-pointer">
+                    LOGOUT
+                  </p>
+                </ul>
+              </div>
+            </div>
+            {/* orders */}
+            <div className="mt-[3em]">
+              {/* <h2>ALL ORDERS</h2> */}
+              <div>
+                <Orders />
+              </div>
+            </div>
           </div>
-          <div>
-            <ul className="flex items-start gap-[15px]">
-              <li>FOOD</li>
-              <li>DRINKS</li>
-              <li>USERS</li>
-            </ul>
-          </div>
+        </>
+      ) : (
+        <div className="mt-[7em]">
+          <p className="text-center mb-[1em]">Your Account Is Not Admin</p>
+          <Link to="/login" className="text-center " onClick={handleLogout}>
+            <p className="text-red-600 underline">LOGIN AGAIN</p>
+          </Link>
         </div>
-        {/* orders */}
-        <div className="mt-[3em]">
-          {/* <h2>ALL ORDERS</h2> */}
-          <div>
-            <Orders />
-          </div>
-        </div>
-      </div>
+      )}
     </div>
   );
 };

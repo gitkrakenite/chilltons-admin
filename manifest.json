@@ -1,0 +1,27 @@
+{
+  "name": "Chilltons",
+  "short_name": "Chilltons Admin",
+  "start_url": ".",
+  "prefer_related_applications": true,
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#f7f7f7",
+  "theme_color": "#3498db",
+  "icons": [
+    {
+      "src": "chlogo.png",
+      "sizes": "64x64 32x32 24x24 16x16",
+      "type": "image/x-icon"
+    },
+    {
+      "src": "chlogo.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "chlogo.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ]
+}

@@ -27,13 +27,9 @@ const Login = () => {
       toast.error("Also Check Network");
     }
 
-    if (user?.isPaid == "yes") {
+    if (user) {
       navigate("/");
       // toast.success("Welcome Back");
-    }
-
-    if (user?.isPaid == "nope") {
-      toast.success("No Admin Rights");
     }
 
     if (navigator.onLine) {
@@ -41,9 +37,8 @@ const Login = () => {
     } else {
       toast.error("Network Error");
     }
-
     dispatch(reset());
-  }, [user, isError, isSuccess, message, isLoading, navigate, dispatch]);
+  }, [user, isError, isSuccess, message, isLoading, navigate]);
 
   const [loading, setLoading] = useState(false);
 
@@ -62,6 +57,7 @@ const Login = () => {
       setLoading(true);
       const userData = { username, password };
       dispatch(login(userData));
+      // navigate("/");
       setLoading(false);
     } catch (error) {
       setLoading(false);
