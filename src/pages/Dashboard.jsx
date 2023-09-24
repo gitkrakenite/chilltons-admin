@@ -26,19 +26,22 @@ const Dashboard = () => {
 
   return (
     <div>
-      {console.log(user)}
+      {/* {console.log(user)} */}
       {user?.isPaid == "yes" ? (
         <>
           {/* wrapper */}
           <div className=" px-[10px] sm:px-[3em] pt-[1em]">
             {/* topbar */}
-            <div className="flex justify-between items-center gap-3 flex-wrap">
+            <div className="flex flex-col justify-between items-center gap-3 flex-wrap">
               <div>
                 {/* <h2>CHILLTONS</h2> */}
                 <img src={logo} alt="" className="w-20 h-20" />
               </div>
               <div>
                 <ul className="flex items-start gap-[15px]">
+                  <Link to="/send-us">
+                    <li>Send Us</li>
+                  </Link>
                   <Link to="/food">
                     <li>FOOD</li>
                   </Link>

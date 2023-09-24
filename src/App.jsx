@@ -12,6 +12,7 @@ import Drinks from "./pages/drinks/Drinks";
 import DrinkCreate from "./pages/drinks/DrinkCreate";
 import DrinkEdit from "./pages/drinks/DrinkEdit";
 import Users from "./pages/Users";
+import SendUs from "./pages/SendUs";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/" element={<Dashboard />} />
           <Route path="/order/:id" element={<SpecificOrder />} />
+          <Route path="/send-us" element={<SendUs />} />
           {/* food routes */}
           <Route path="/food" element={<Food />} />
           <Route path="/food-create" element={<Create />} />

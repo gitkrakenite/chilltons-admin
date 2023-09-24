@@ -18,7 +18,7 @@ const Orders = () => {
       if (response) {
         setLoading(false);
         setAllOrders(response.data);
-        console.log(response.data);
+        // console.log(response.data);
       }
     } catch (error) {
       toast.error("Error Fetching orders");
