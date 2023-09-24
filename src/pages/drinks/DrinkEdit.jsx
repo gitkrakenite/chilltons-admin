@@ -187,10 +187,10 @@ const DrinkEdit = () => {
                         required
                       >
                         <option value="">Choose</option>
-                        <option value="breakfast">BreakFast</option>
-                        <option value="meal">Meal</option>
-                        <option value="snack">Snack</option>
-                        <option value="dinner">Dinner</option>
+                        <option value="fruit">Fruit Drink</option>
+                        <option value="soda">Soda</option>
+                        <option value="yoghurt">Youghurt</option>
+                        <option value="new">New</option>
                         <option value="tasty">Tasty</option>
                       </select>
                     </div>

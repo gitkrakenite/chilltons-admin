@@ -15,12 +15,21 @@ const Create = () => {
   const [quantity, setQuantity] = useState(1);
   const [loading, setLoading] = useState(false);
   const [available, setAvailable] = useState(true);
+  const [vendor, setVendor] = useState(true);
 
   const navigate = useNavigate();
 
   const handleCreate = async (e) => {
     e.preventDefault();
-    if (!title || !price || !description || !category || !image || !quantity) {
+    if (
+      !title ||
+      !price ||
+      !vendor ||
+      !description ||
+      !category ||
+      !image ||
+      !quantity
+    ) {
       return toast.error("A value is missing");
     }
 
@@ -34,6 +43,7 @@ const Create = () => {
         image,
         quantity,
         available,
+        vendor,
       };
       const response = await axios.post("/food/create", dataToSend);
       if (response) {
@@ -98,7 +108,7 @@ const Create = () => {
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               required
-              maxLength={100}
+              maxLength={600}
             ></textarea>
           </div>
           <div className="flex flex-col gap-[10px] mb-[20px]">
@@ -117,6 +127,26 @@ const Create = () => {
               <option value="snack">Snack</option>
               <option value="dinner">Dinner</option>
               <option value="tasty">Tasty</option>
+            </select>
+          </div>
+          <div className="flex flex-col gap-[10px] mb-[20px]">
+            <label htmlFor="vendor">Enter Food Vendor</label>
+            <select
+              name="vendor"
+              id="vendor"
+              className="bg-transparent border border-zinc-500 p-[6px] rounded-lg"
+              value={vendor}
+              onChange={(e) => setVendor(e.target.value)}
+              required
+            >
+              <option value="">Choose</option>
+              <option value="kioko">Kioko</option>
+              <option value="dowells">Dowells</option>
+              <option value="food_palace">Food Palace</option>
+              <option value="chilltons">Chilltons</option>
+              <option value="cafeteria">Cafeteria</option>
+              <option value="njuguna">Njuguna</option>
+              <option value="supafries">Supa Fries</option>
             </select>
           </div>
           <div className="flex flex-col gap-[10px] mb-[20px]">

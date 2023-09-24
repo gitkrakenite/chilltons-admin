@@ -28,6 +28,7 @@ const Login = () => {
     }
 
     if (user) {
+      // handleLogout();
       navigate("/");
       // toast.success("Welcome Back");
     }
@@ -129,12 +130,16 @@ const Login = () => {
           </div>
         </div>
         <div>
-          <button
-            className="bg-red-800 text-white p-[10px] w-full rounded-md"
-            onClick={handleSignin}
-          >
-            Log in
-          </button>
+          {loading ? (
+            <Spinner message="Verifying" />
+          ) : (
+            <button
+              className="bg-red-800 text-white p-[10px] w-full rounded-md"
+              onClick={handleSignin}
+            >
+              Log in
+            </button>
+          )}
         </div>
       </form>
       <div className="text-center mt-[2em] underline">

@@ -28,7 +28,7 @@ const Food = () => {
       if (response) {
         setLoading(false);
         setAllFood(response.data);
-        console.log(response.data);
+        // console.log(response.data);
       }
     } catch (error) {
       setLoading(false);
@@ -103,7 +103,8 @@ const Food = () => {
         const searchResults = allFood?.filter(
           (item) =>
             item.title.toLowerCase().includes(searchText.toLowerCase()) ||
-            item.category.toLowerCase().includes(searchText.toLowerCase())
+            item.category.toLowerCase().includes(searchText.toLowerCase()) ||
+            item.vendor.toLowerCase().includes(searchText.toLowerCase())
         );
 
         setSearchedResults(searchResults);
@@ -309,8 +310,9 @@ const Food = () => {
                           />
 
                           <div className="flex justify-between items-center mt-[10px]">
-                            <div>
+                            <div className="flex gap-[20px] text-red-500">
                               <p className="text-zinc-800">Ksh.{item.price}</p>
+                              <p>{item.vendor}</p>
                             </div>
 
                             <div className="text-zinc-800 flex items-center gap-[2em] z-10">
@@ -391,8 +393,9 @@ const Food = () => {
                           />
 
                           <div className="flex justify-between items-center mt-[10px]">
-                            <div>
+                            <div className="flex gap-[20px] text-red-500">
                               <p className="text-zinc-800">Ksh.{item.price}</p>
+                              <p>{item.vendor}</p>
                             </div>
 
                             <div className="text-zinc-800 flex items-center gap-[2em] z-10">

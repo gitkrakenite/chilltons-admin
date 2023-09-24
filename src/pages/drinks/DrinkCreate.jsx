@@ -98,7 +98,7 @@ const DrinkCreate = () => {
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               required
-              maxLength={100}
+              maxLength={600}
             ></textarea>
           </div>
           <div className="flex flex-col gap-[10px] mb-[20px]">

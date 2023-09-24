@@ -26,6 +26,7 @@ const Dashboard = () => {
 
   return (
     <div>
+      {console.log(user)}
       {user?.isPaid == "yes" ? (
         <>
           {/* wrapper */}

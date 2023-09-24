@@ -91,9 +91,9 @@ const SpecificOrder = () => {
                         href={`tel:${item.newPhone}`}
                         className="flex gap-[10px] mb-[20px] items-center"
                       >
-                        <AiOutlinePhone className="text-2xl" />
-                        <p>Press To Call</p>
+                        Call <AiOutlinePhone className="text-2xl" />
                       </a>
+                      <p>{item.newPhone}</p>
                     </div>
                   </div>
                 </div>
@@ -108,7 +108,8 @@ const SpecificOrder = () => {
                 {/* Extra information */}
                 <div>
                   <p className="font-bold">Extra Information</p>
-                  <p>{item.moreInfo}</p>
+
+                  <p className="my-[15px]">{item.moreInfo} campus</p>
 
                   <p>Progress : {item.progress}</p>
                 </div>
@@ -134,9 +135,14 @@ const SpecificOrder = () => {
 
                     <div className="flex justify-between">
                       <div>
-                        <p className="font-bold mb-[15px]">{p.title}</p>
+                        <div className="flex gap-3 ">
+                          <p className="font-bold">{p.title}</p>
+                          <p className="text-red-500">{p.vendor}</p>
+                        </div>
                         <p>{p.description}</p>
-                        <p>{p.available ? "Available" : "Unavailable"}</p>
+                        <p className="mt-[2em]">
+                          {p.available ? "Available" : "Unavailable"}
+                        </p>
                       </div>
                     </div>
                     <div>

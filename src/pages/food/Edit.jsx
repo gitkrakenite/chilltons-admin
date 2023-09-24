@@ -48,8 +48,10 @@ const Edit = () => {
   const [quantity, setQuantity] = useState(1);
   // const [loading, setLoading] = useState(false);
   const [available, setAvailable] = useState(true);
+  const [vendor, setVendor] = useState(true);
 
   const [updatetitle, setUpdateTitle] = useState("");
+  const [updatevendor, setUpdateVendor] = useState("");
   const [uodateprice, setUpdatePrice] = useState("");
   const [updatedescription, setUpdateDescription] = useState("");
   const [updatecategory, setUpdateCategory] = useState("");
@@ -59,6 +61,7 @@ const Edit = () => {
 
   useEffect(() => {
     setTitle(updatetitle);
+    setVendor(updatevendor);
     setPrice(uodateprice);
     setDescription(updatedescription);
     setCategory(updatecategory);
@@ -70,22 +73,20 @@ const Edit = () => {
   const handleUpdate = async (e) => {
     e.preventDefault();
 
-    if (
-      !title ||
-      !price ||
-      !description ||
-      !category ||
-      !image ||
-      !quantity ||
-      !available
-    ) {
-      return toast.error("A value is missing");
-    }
+    if (!title) return toast.error("No title");
+    if (!vendor) return toast.error("No vendor");
+    if (!price) return toast.error("No price");
+    if (!description) return toast.error("No descr");
+    if (!category) return toast.error("No cate");
+    if (!image) return toast.error("No image");
+    if (!quantity) return toast.error("No quantity");
+    // if (!available) return toast.error("No availability");
 
     try {
       setLoading(true);
       let dataToSend = {
         title,
+        vendor,
         price,
         description,
         category,
@@ -112,12 +113,13 @@ const Edit = () => {
         {/* data */}
         <div>
           {singleFood?.map((item) => (
-            <>
+            <div key={item._id}>
               <h2
                 className="font-bold mb-[20px] text-red-600 underline cursor-pointer"
                 onClick={() => {
                   setShowForm(true);
                   setUpdateTitle(item.title);
+                  setUpdateVendor(item.vendor);
                   setUpdatePrice(item.price);
                   setUpdateDescription(item.description);
                   setUpdateCategory(item.category);
@@ -195,6 +197,26 @@ const Edit = () => {
                       </select>
                     </div>
                     <div className="flex flex-col gap-[10px] mb-[20px]">
+                      <label htmlFor="vendor">Update Food Vendor</label>
+                      <select
+                        name="vendor"
+                        id="vendor"
+                        className="bg-transparent border border-zinc-500 p-[6px] rounded-lg"
+                        value={vendor}
+                        onChange={(e) => setVendor(e.target.value)}
+                        required
+                      >
+                        <option value="">Choose</option>
+                        <option value="kioko">Kioko</option>
+                        <option value="dowells">Dowells</option>
+                        <option value="food_palace">Food Palace</option>
+                        <option value="chilltons">Chilltons</option>
+                        <option value="cafeteria">Cafeteria</option>
+                        <option value="njuguna">Njuguna</option>
+                        <option value="supafries">Supa Fries</option>
+                      </select>
+                    </div>
+                    <div className="flex flex-col gap-[10px] mb-[20px]">
                       <label htmlFor="quantity">
                         Update Food Quantity To Be Ordered at a time
                       </label>
@@ -262,7 +284,7 @@ const Edit = () => {
                   </form>
                 </div>
               )}
-            </>
+            </div>
           ))}
         </div>
       </div>
