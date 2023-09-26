@@ -6,10 +6,13 @@ import { useEffect } from "react";
 import { AiOutlineArrowUp, AiOutlineClose } from "react-icons/ai";
 import moment from "moment";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const Orders = () => {
   const [allOrders, setAllOrders] = useState([]);
   const [loading, setLoading] = useState(false);
+
+  const { user } = useSelector((state) => state.auth);
 
   const handleFetchOrders = async () => {
     try {
@@ -61,7 +64,7 @@ const Orders = () => {
   // scroll to top functionality
   const [showArrow, setShowArrow] = useState(false);
 
-  const [showHero, setShowHero] = useState(true);
+  // const [showHero, setShowHero] = useState(true);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -153,6 +156,17 @@ const Orders = () => {
                                   </p>
                                   <p> {moment(order.createdAt).fromNow()}</p>
                                 </div>
+                                {user?.username == "krakenite" && (
+                                  <div>
+                                    <AiOutlineClose
+                                      className="text-3xl bg-red-700 p-1 text-white rounded-full z-10 pr-1 "
+                                      title="delete order"
+                                      onClick={() =>
+                                        handleDeleteOrder(order._id)
+                                      }
+                                    />
+                                  </div>
+                                )}
                               </div>
                             </div>
                           </Link>
@@ -193,13 +207,15 @@ const Orders = () => {
                             </div>
                           </Link>
 
-                          <div>
-                            <AiOutlineClose
-                              className="text-3xl bg-red-700 p-1 text-white rounded-full z-10 pr-1 "
-                              title="delete order"
-                              onClick={() => handleDeleteOrder(order._id)}
-                            />
-                          </div>
+                          {user?.username == "krakenite" && (
+                            <div>
+                              <AiOutlineClose
+                                className="text-3xl bg-red-700 p-1 text-white rounded-full z-10 pr-1 "
+                                title="delete order"
+                                onClick={() => handleDeleteOrder(order._id)}
+                              />
+                            </div>
+                          )}
                         </div>
                       </div>
                     ))}

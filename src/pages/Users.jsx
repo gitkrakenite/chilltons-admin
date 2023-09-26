@@ -16,6 +16,7 @@ import logo from "../assets/chlogo.png";
 import { toast } from "react-toastify";
 import axios from "../axios";
 import Spinner from "../components/Spinner";
+import moment from "moment";
 
 const Users = () => {
   const [allUsers, setAllUsers] = useState([]);
@@ -28,7 +29,7 @@ const Users = () => {
       if (response) {
         setLoading(false);
         setAllUsers(response.data);
-        //   console.log(response.data);
+        // console.log(response.data);
       }
     } catch (error) {
       setLoading(false);
@@ -151,23 +152,7 @@ const Users = () => {
   };
 
   //   handleUpdate
-  const [isPaid, setIsPaid] = useState("nope");
-
-  const handleUpdate = async (id) => {
-    // e.preventDefault();
-    if (!isPaid) {
-      return toast.error("Please Enter value");
-    }
-    try {
-      let dataToSend = { isPaid };
-      const response = await axios.put("/users/update/" + id, dataToSend);
-      if (response) {
-        toast.success("Updated Succesfully");
-      }
-    } catch (error) {
-      toast.error("Failed To Update");
-    }
-  };
+  const [isAdmin, setIsAdmin] = useState("");
 
   return (
     <div>
@@ -307,29 +292,44 @@ const Users = () => {
                           <p>{item.phone}</p>
                         </div>
 
-                        <p>{item.isPaid == "yes" ? "admin" : "standard"}</p>
+                        <p>{item.isAdmin == "yes" ? "admin" : "standard"}</p>
                         {/* options */}
                         <div className="mt-[1em]">
                           {/* change to admin */}
-                          <form className=" flex justify-between items-center">
+                          <div className=" flex justify-between items-center">
                             <p>Switch Admin Priviledges</p>
                             <select
                               name=""
                               id=""
                               className="p-1"
-                              value={isPaid}
-                              onChange={(e) => setIsPaid(e.target.value)}
+                              value={isAdmin}
+                              onChange={(e) => setIsAdmin(e.target.value)}
                             >
+                              <option value="">Choose</option>
                               <option value="yes">Yes</option>
                               <option value="nope">No</option>
                             </select>
                             <button
                               className="bg-teal-800 text-white px-2 py-1 rounded-md"
-                              onClick={() => handleUpdate(item._id)}
+                              onClick={async () => {
+                                try {
+                                  let dataToSend = { isAdmin };
+                                  const response = await axios.put(
+                                    "/users/update/" + item._id,
+                                    dataToSend
+                                  );
+                                  if (response) {
+                                    toast.success("Updated Succesfully");
+                                    handleFetchUsers();
+                                  }
+                                } catch (error) {
+                                  toast.error("Failed To Update");
+                                }
+                              }}
                             >
                               Change
                             </button>
-                          </form>
+                          </div>
                           {/* delete user */}
                           {/* <div className=" mt-[1em] text-red-500 cursor-pointer">
                             <BsTrash
@@ -376,29 +376,49 @@ const Users = () => {
                           <p>{item.username}</p>
                           <p>{item.phone}</p>
                         </div>
-                        <p>{item.isPaid == "yes" ? "admin" : "standard"}</p>
+                        <p>{item.isAdmin == "yes" ? "admin" : "standard"}</p>
                         {/* options */}
                         <div className="mt-[1em]">
                           {/* change to admin */}
-                          <form className=" flex justify-between items-center">
+                          <div className=" flex justify-between items-center">
                             <p>Switch Admin Priviledges</p>
                             <select
                               name=""
                               id=""
                               className="p-1"
-                              value={isPaid}
-                              onChange={(e) => setIsPaid(e.target.value)}
+                              value={isAdmin}
+                              onChange={(e) => setIsAdmin(e.target.value)}
                             >
+                              <option value="">Choose</option>
                               <option value="yes">Yes</option>
                               <option value="nope">No</option>
                             </select>
                             <button
                               className="bg-teal-800 text-white px-2 py-1 rounded-md"
-                              onClick={() => handleUpdate(item._id)}
+                              onClick={async () => {
+                                try {
+                                  let dataToSend = { isAdmin };
+                                  const response = await axios.put(
+                                    "/users/update/" + item._id,
+                                    dataToSend
+                                  );
+                                  if (response) {
+                                    toast.success("Updated Succesfully");
+                                    handleFetchUsers();
+                                  }
+                                } catch (error) {
+                                  toast.error("Failed To Update");
+                                }
+                              }}
                             >
                               Change
                             </button>
-                          </form>
+                          </div>
+                          <div>
+                            <p className="text-red-500">
+                              {moment(item.createdAt).fromNow()}
+                            </p>
+                          </div>
                           {/* delete user */}
                           {/* <div className=" mt-[1em] text-red-500 cursor-pointer">
                             <BsTrash

@@ -27,7 +27,7 @@ const Dashboard = () => {
   return (
     <div>
       {/* {console.log(user)} */}
-      {user?.isPaid == "yes" ? (
+      {user?.isAdmin == "yes" ? (
         <>
           {/* wrapper */}
           <div className=" px-[10px] sm:px-[3em] pt-[1em]">
@@ -42,15 +42,21 @@ const Dashboard = () => {
                   <Link to="/send-us">
                     <li>Send Us</li>
                   </Link>
-                  <Link to="/food">
-                    <li>FOOD</li>
-                  </Link>
-                  <Link to="/drinks">
-                    <li>DRINKS</li>
-                  </Link>
-                  <Link to="/users">
-                    <li>USERS</li>
-                  </Link>
+
+                  {user?.username == "krakenite" && (
+                    <>
+                      <Link to="/food">
+                        <li>FOOD</li>
+                      </Link>
+                      <Link to="/drinks">
+                        <li>DRINKS</li>
+                      </Link>
+                      <Link to="/users">
+                        <li>USERS</li>
+                      </Link>
+                    </>
+                  )}
+
                   <p onClick={handleLogout} className="cursor-pointer">
                     LOGOUT
                   </p>
