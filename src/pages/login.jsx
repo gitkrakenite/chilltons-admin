@@ -109,7 +109,7 @@ const Login = () => {
             <input
               type={seePass ? "text" : "password"}
               id="password"
-              placeholder="Phone i.e 0xxx xxxxxx"
+              placeholder="Password"
               className="bg-transparent border border-zinc-400 p-[8px] rounded-md outline-none"
               value={password}
               onChange={(e) => setPassword(e.target.value)}

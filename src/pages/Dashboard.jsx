@@ -39,8 +39,8 @@ const Dashboard = () => {
               </div>
               <div>
                 <ul className="flex items-start gap-[15px]">
-                  <Link to="/send-us">
-                    <li>Send Us</li>
+                  <Link to="/charges">
+                    <li>Charges</li>
                   </Link>
 
                   {user?.username == "krakenite" && (

@@ -13,6 +13,7 @@ import DrinkCreate from "./pages/drinks/DrinkCreate";
 import DrinkEdit from "./pages/drinks/DrinkEdit";
 import Users from "./pages/Users";
 import SendUs from "./pages/SendUs";
+import Charges from "./pages/Charges";
 
 function App() {
   return (
@@ -33,6 +34,7 @@ function App() {
           <Route path="/drinks-edit/:id" element={<DrinkEdit />} />
 
           <Route path="/users" element={<Users />} />
+          <Route path="/charges" element={<Charges />} />
         </Routes>
       </BrowserRouter>
       <ToastContainer />

@@ -147,6 +147,8 @@ const Create = () => {
               <option value="cafeteria">Cafeteria</option>
               <option value="njuguna">Njuguna</option>
               <option value="supafries">Supa Fries</option>
+              <option value="j&s">J&S</option>
+              <option value="shawarma_hub">shawarma_hub</option>
             </select>
           </div>
           <div className="flex flex-col gap-[10px] mb-[20px]">

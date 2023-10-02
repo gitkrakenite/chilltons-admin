@@ -3,7 +3,7 @@ import { toast } from "react-toastify";
 
 import { Link, useParams, useNavigate } from "react-router-dom";
 
-import moment from "moment";
+// import moment from "moment";
 import { useState } from "react";
 import { useEffect } from "react";
 import Spinner from "../../components/Spinner";
@@ -214,6 +214,8 @@ const Edit = () => {
                         <option value="cafeteria">Cafeteria</option>
                         <option value="njuguna">Njuguna</option>
                         <option value="supafries">Supa Fries</option>
+                        <option value="j&s">J&S</option>
+                        <option value="shawarma_hub">shawarma_hub</option>
                       </select>
                     </div>
                     <div className="flex flex-col gap-[10px] mb-[20px]">
