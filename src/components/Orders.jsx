@@ -4,6 +4,7 @@ import Spinner from "./Spinner";
 import { toast } from "react-toastify";
 import { useEffect } from "react";
 import { AiOutlineArrowUp, AiOutlineClose } from "react-icons/ai";
+import { FiRefreshCcw } from "react-icons/fi";
 import moment from "moment";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -128,6 +129,12 @@ const Orders = () => {
           </form>
           {/* {console.log(searchedResults)} */}
         </div>
+        {!loading && (
+          <FiRefreshCcw
+            className="text-2xl text-end w-full my-[15px]"
+            onClick={handleFetchOrders}
+          />
+        )}
         {/* data to show */}
         <div>
           {loading ? (

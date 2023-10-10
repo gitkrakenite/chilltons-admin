@@ -45,15 +45,22 @@ const Dashboard = () => {
 
                   {user?.username == "krakenite" && (
                     <>
-                      <Link to="/food">
-                        <li>FOOD</li>
-                      </Link>
-                      <Link to="/drinks">
-                        <li>DRINKS</li>
-                      </Link>
-                      <Link to="/users">
-                        <li>USERS</li>
-                      </Link>
+                      <div>
+                        <Link to="/food">
+                          <li>FOOD</li>
+                        </Link>
+                        <Link to="/drinks">
+                          <li>DRINKS</li>
+                        </Link>
+                      </div>
+                      <div>
+                        <Link to="/users">
+                          <li>USERS</li>
+                        </Link>
+                        <Link to="/feedback">
+                          <li>Feed</li>
+                        </Link>
+                      </div>
                     </>
                   )}
 
@@ -66,6 +73,7 @@ const Dashboard = () => {
             {/* orders */}
             <div className="mt-[3em]">
               {/* <h2>ALL ORDERS</h2> */}
+
               <div>
                 <Orders />
               </div>

@@ -1,12 +1,6 @@
 {
-  "name": "Chilltons",
-  "short_name": "Chilltons Admin",
-  "start_url": ".",
-  "prefer_related_applications": true,
-  "display": "standalone",
-  "orientation": "portrait",
-  "background_color": "#f7f7f7",
-  "theme_color": "#3498db",
+  "short_name": "Yummy",
+  "name": "Yummy Food App",
   "icons": [
     {
       "src": "chlogo.png",
@@ -23,5 +17,9 @@
       "type": "image/png",
       "sizes": "512x512"
     }
-  ]
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#ffffff"
 }

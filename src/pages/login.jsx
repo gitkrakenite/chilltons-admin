@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import logo from "../assets/chlogo.png";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
@@ -142,11 +142,6 @@ const Login = () => {
           )}
         </div>
       </form>
-      <div className="text-center mt-[2em] underline">
-        <Link to="/register">
-          <p>Are You New Here</p>
-        </Link>
-      </div>
     </div>
   );
 };
