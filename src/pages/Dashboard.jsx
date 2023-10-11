@@ -42,6 +42,9 @@ const Dashboard = () => {
                   <Link to="/charges">
                     <li>Charges</li>
                   </Link>
+                  <Link to="/receipts">
+                    <li>RECEIPTS</li>
+                  </Link>
 
                   {user?.username == "krakenite" && (
                     <>

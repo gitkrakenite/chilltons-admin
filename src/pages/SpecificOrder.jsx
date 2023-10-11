@@ -8,12 +8,16 @@ import { useEffect } from "react";
 import { AiOutlineArrowLeft, AiOutlinePhone } from "react-icons/ai";
 import { BsPersonCheck } from "react-icons/bs";
 import { CiLocationOn } from "react-icons/ci";
+import Recipts from "../components/Recipts";
+import { useSelector } from "react-redux";
 
 const SpecificOrder = () => {
   // fetch the order
   const { id } = useParams();
   const [singleOrder, setSingleOrder] = useState([]);
   const [loading, setLoading] = useState(false);
+
+  const { user } = useSelector((state) => state.auth);
 
   const fetchOrder = async () => {
     try {
@@ -61,6 +65,8 @@ const SpecificOrder = () => {
       toast.error("Failed to update");
     }
   };
+
+  // working on generate receipts
 
   return (
     <div>
@@ -162,31 +168,43 @@ const SpecificOrder = () => {
 
                 <h2 className="font-bold my-[1em]">Options Below</h2>
 
-                <form
-                  className="flex flex-col sm:flex-row gap-4 items-center"
-                  onSubmit={handleUpdateProgress}
-                >
-                  <label htmlFor="progress">Update Order Progress</label>
-                  <select
-                    name=""
-                    id=""
-                    value={progress}
-                    onChange={(e) => setProgress(e.target.value)}
+                <div>
+                  <form
+                    className="flex flex-col sm:flex-row gap-4 items-start"
+                    onSubmit={handleUpdateProgress}
                   >
-                    <option value="">Choose</option>
-                    <option value="received">Received</option>
-                    <option value="preparing">Preparing</option>
-                    <option value="shipping">Shipping</option>
-                    <option value="rejected">Rejected</option>
-                    <option value="delivered">delivered</option>
-                  </select>
-                  <button
-                    className="bg-red-700 text-white px-2 py-1 rounded-md"
-                    onClick={handleUpdateProgress}
-                  >
-                    Update
-                  </button>
-                </form>
+                    <label htmlFor="progress">Update Order Progress</label>
+                    <select
+                      name=""
+                      id=""
+                      value={progress}
+                      onChange={(e) => setProgress(e.target.value)}
+                    >
+                      <option value="">Choose</option>
+                      <option value="received">Received</option>
+                      <option value="preparing">Preparing</option>
+                      <option value="shipping">Shipping</option>
+                      <option value="rejected">Rejected</option>
+                      <option value="delivered">delivered</option>
+                    </select>
+                    <button
+                      className="bg-red-700 text-white px-2 py-1 rounded-md"
+                      onClick={handleUpdateProgress}
+                    >
+                      Update
+                    </button>
+                  </form>
+                </div>
+                {/* generate receipt */}
+                {user?.username == "krakenite" && (
+                  <div className="mt-[3em] pb-[1em]">
+                    <Recipts
+                      customer={item.username}
+                      delivery={item.location}
+                    />
+                  </div>
+                )}
+                {/*  */}
               </div>
             </div>
           ))}
