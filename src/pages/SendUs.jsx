@@ -6,28 +6,71 @@ import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { AiOutlineArrowLeft, AiOutlineDelete } from "react-icons/ai";
 import moment from "moment";
+import { useSelector } from "react-redux";
+import { useRef } from "react";
+import MySong from "../assets/not.mp3";
 
 const SendUs = () => {
   const [loading, setLoading] = useState(false);
   const [allSend, setAllSend] = useState([]);
+  const { user } = useSelector((state) => state.auth);
 
-  const handleFetchSend = async () => {
+  const handleFetchOrders = async () => {
     try {
-      setLoading(false);
-      let response = await axios.get("/send-us/all");
+      setLoading(true);
+      const response = await axios.get("send-us/all");
       if (response) {
         setLoading(false);
-        setAllSend(response.data);
-        // console.log(response.data);
+        return response.data; // Return the data
       }
     } catch (error) {
       setLoading(false);
-      toast.error("Error fetching send us");
+      toast.error("Error Fetching sent");
+      throw error;
+    }
+  };
+
+  // play a song function
+  const audioRef = useRef(null);
+
+  const handlePlayAudio = () => {
+    const audio = audioRef.current;
+    if (audio) {
+      audio.play();
+    }
+  };
+
+  const fetchData = async () => {
+    try {
+      const data = await handleFetchOrders();
+      setAllSend(data);
+
+      // trying to create notification
+      // Get the previously stored data length from local storage
+      const storedDataLength = parseInt(localStorage.getItem("sentLength"), 10);
+
+      // Check if the new data length is greater than the stored data length
+      if (data.length > storedDataLength) {
+        handlePlayAudio();
+        toast.success("New sent");
+      }
+
+      // Store the current data length in local storage
+      localStorage.setItem("sentLength", data.length.toString());
+    } catch (error) {
+      console.error("Error fetching sent", error);
     }
   };
 
   useEffect(() => {
-    handleFetchSend();
+    fetchData(); // Call the fetchData function immediately
+
+    const intervalId = setInterval(fetchData, 5000);
+
+    // Cleanup the interval when the component unmounts
+    return () => {
+      clearInterval(intervalId);
+    };
   }, []);
 
   const handleDeleteSend = async (id) => {
@@ -39,7 +82,7 @@ const SendUs = () => {
       try {
         const response = await axios.delete("/send-us/" + id);
         if (response) {
-          handleFetchSend();
+          handleFetchOrders();
           toast.success("Deleted Successfully");
         }
       } catch (error) {
@@ -57,7 +100,11 @@ const SendUs = () => {
             <AiOutlineArrowLeft className="text-2xl" />
           </Link>
         </div>
-        <p className="text-lg font-bold">All Requests</p>
+        <div className="flex justify-between">
+          <p className="text-lg font-bold">All Requests</p>
+          <button onClick={handlePlayAudio}>Play Audio</button>
+          <audio ref={audioRef} src={MySong} />
+        </div>
         {loading ? (
           <div className="h-[70vh] w-full flex justify-center items-center">
             <Spinner message="Loading..." />
@@ -83,12 +130,14 @@ const SendUs = () => {
                     <p className="mb-2">{item.location}</p>
                     <p className="text-lg my-3">{item.items}</p>
                     <div className="flex justify-between items-center">
-                      <p>
-                        <AiOutlineDelete
-                          className="text-2xl text-red-600"
-                          onClick={() => handleDeleteSend(item._id)}
-                        />
-                      </p>
+                      {user?.username == "krakenite" && (
+                        <p>
+                          <AiOutlineDelete
+                            className="text-2xl text-red-600"
+                            onClick={() => handleDeleteSend(item._id)}
+                          />
+                        </p>
+                      )}
                       <p className="text-end text-teal-800 text-sm">
                         {" "}
                         {moment(item.createdAt).fromNow()}

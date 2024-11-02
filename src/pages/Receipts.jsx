@@ -65,6 +65,19 @@ const Receipts = () => {
   useEffect(() => {
     handleFetchReceipts();
   }, []);
+
+  const handleDeleteReceipts = async (id) => {
+    try {
+      let response = await axios.delete("/receipts/" + id);
+      if (response) {
+        toast.success("Receipt deleted");
+        await handleFetchReceipts();
+      }
+    } catch (error) {
+      toast.error("failed to delete");
+    }
+  };
+
   return (
     <div>
       {/* wrapper */}
@@ -79,7 +92,8 @@ const Receipts = () => {
         </div>
         {/*  */}
         <div className="mt-[20px]">
-          <h2>Your Receipts</h2>
+          <h2>All Receipts</h2>
+          {/* {console.log(allReceipts)} */}
 
           {/* data */}
           {loading ? (
@@ -96,9 +110,18 @@ const Receipts = () => {
                 <>
                   {allReceipts?.map((item) => (
                     <div key={item._id} className="bg-zinc-200 mb-[15px]">
-                      <p className="my-[5px] text-end text-sm text-red-600">
-                        Generated : {moment(item.createdAt).fromNow()}
-                      </p>
+                      <div className="flex justify-between">
+                        <p className="text-sm">Creator: {item.creator}</p>
+                        <p className="my-[5px] text-sm text-red-600">
+                          Generated : {moment(item.createdAt).fromNow()}
+                        </p>
+                        <p
+                          className="text-red font-bold cursor-pointer"
+                          onClick={() => handleDeleteReceipts(item._id)}
+                        >
+                          del
+                        </p>
+                      </div>
                       <div className="text-sm">
                         <p>Customer : {item.customerName}</p>
                         <p>Address : {item.deliveryAddress}</p>

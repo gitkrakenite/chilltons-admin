@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import axios from "../axios";
 import Spinner from "./Spinner";
 import { toast } from "react-toastify";
@@ -8,6 +8,7 @@ import { FiRefreshCcw } from "react-icons/fi";
 import moment from "moment";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
+import MySong from "../assets/not.mp3";
 
 const Orders = () => {
   const [allOrders, setAllOrders] = useState([]);
@@ -21,16 +22,49 @@ const Orders = () => {
       const response = await axios.get("orders/all");
       if (response) {
         setLoading(false);
-        setAllOrders(response.data);
-        // console.log(response.data);
+        return response.data; // Return the data
       }
     } catch (error) {
+      setLoading(false);
       toast.error("Error Fetching orders");
+      throw error;
+    }
+  };
+
+  // play a song function
+  const audioRef = useRef(null);
+
+  const handlePlayAudio = () => {
+    const audio = audioRef.current;
+    if (audio) {
+      audio.play();
+    }
+  };
+
+  const fetchData = async () => {
+    try {
+      const data = await handleFetchOrders();
+      setAllOrders(data);
+
+      // trying to create notification
+      // Get the previously stored data length from local storage
+      const storedDataLength = parseInt(localStorage.getItem("dataLength"), 10);
+
+      // Check if the new data length is greater than the stored data length
+      if (data.length > storedDataLength) {
+        handlePlayAudio();
+        toast.success("New order");
+      }
+
+      // Store the current data length in local storage
+      localStorage.setItem("dataLength", data.length.toString());
+    } catch (error) {
+      console.error("Error fetching orders", error);
     }
   };
 
   useEffect(() => {
-    handleFetchOrders();
+    fetchData(); // Call the fetchData function immediately
   }, []);
 
   // search  states
@@ -114,6 +148,8 @@ const Orders = () => {
           <AiOutlineArrowUp />
         </div>
       )}
+
+      {/* <button onClick={handlePlayAudio}>Play Audio</button> */}
       {/* wrapper */}
       <div>
         {/* searchbar */}
@@ -208,7 +244,15 @@ const Orders = () => {
                                   <p className="mb-3">
                                     STATUS : {order.progress}
                                   </p>
-                                  <p> {moment(order.createdAt).fromNow()}</p>
+
+                                  <p
+                                    className={
+                                      moment(order.createdAt).fromNow() ==
+                                        "a few seconds ago" && "text-red-600"
+                                    }
+                                  >
+                                    {moment(order.createdAt).fromNow()}
+                                  </p>
                                 </div>
                               </div>
                             </div>
@@ -233,6 +277,7 @@ const Orders = () => {
           )}
         </div>
       </div>
+      <audio ref={audioRef} src={MySong} />
     </div>
   );
 };

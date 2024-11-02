@@ -16,6 +16,7 @@ import SendUs from "./pages/SendUs";
 import Charges from "./pages/Charges";
 import Feddback from "./pages/Feddback";
 import Receipts from "./pages/Receipts";
+import TestPage from "./pages/TestPage";
 
 function App() {
   return (
@@ -39,6 +40,7 @@ function App() {
           <Route path="/users" element={<Users />} />
           <Route path="/charges" element={<Charges />} />
           <Route path="/receipts" element={<Receipts />} />
+          <Route path="/test" element={<TestPage />} />
         </Routes>
       </BrowserRouter>
       <ToastContainer />

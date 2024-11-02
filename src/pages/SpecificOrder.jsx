@@ -196,14 +196,17 @@ const SpecificOrder = () => {
                   </form>
                 </div>
                 {/* generate receipt */}
-                {user?.username == "krakenite" && (
+                {/* {user?.username == "krakenite" && (
                   <div className="mt-[3em] pb-[1em]">
                     <Recipts
                       customer={item.username}
                       delivery={item.location}
                     />
                   </div>
-                )}
+                )} */}
+                <div className="mt-[3em] pb-[1em]">
+                  <Recipts customer={item.username} delivery={item.location} />
+                </div>
                 {/*  */}
               </div>
             </div>

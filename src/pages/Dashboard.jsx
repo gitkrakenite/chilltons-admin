@@ -34,38 +34,37 @@ const Dashboard = () => {
             {/* topbar */}
             <div className="flex flex-col justify-between items-center gap-3 flex-wrap">
               <div>
-                {/* <h2>CHILLTONS</h2> */}
-                <img src={logo} alt="" className="w-20 h-20" />
+                <Link to="/">
+                  <img src={logo} alt="" className="w-20 h-20" />
+                </Link>
               </div>
               <div>
                 <ul className="flex items-start gap-[15px]">
-                  <Link to="/charges">
-                    <li>Charges</li>
+                  <Link to="/send-us">
+                    <li>Grocery</li>
                   </Link>
                   <Link to="/receipts">
                     <li>RECEIPTS</li>
                   </Link>
 
-                  {user?.username == "krakenite" && (
-                    <>
-                      <div>
-                        <Link to="/food">
-                          <li>FOOD</li>
-                        </Link>
-                        <Link to="/drinks">
-                          <li>DRINKS</li>
-                        </Link>
-                      </div>
-                      <div>
-                        <Link to="/users">
-                          <li>USERS</li>
-                        </Link>
-                        <Link to="/feedback">
-                          <li>Feed</li>
-                        </Link>
-                      </div>
-                    </>
-                  )}
+                  <>
+                    <div>
+                      <Link to="/food">
+                        <li>FOOD</li>
+                      </Link>
+                      <Link to="/drinks">
+                        <li>DRINKS</li>
+                      </Link>
+                    </div>
+                    <div>
+                      <Link to="/users">
+                        <li>USERS</li>
+                      </Link>
+                      <Link to="/feedback">
+                        <li>Feed</li>
+                      </Link>
+                    </div>
+                  </>
 
                   <p onClick={handleLogout} className="cursor-pointer">
                     LOGOUT

@@ -1,5 +1,6 @@
 import axios from "../../axios";
 import { toast } from "react-toastify";
+import imageCompression from "browser-image-compression";
 
 import { Link, useParams, useNavigate } from "react-router-dom";
 
@@ -7,7 +8,6 @@ import { Link, useParams, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useEffect } from "react";
 import Spinner from "../../components/Spinner";
-// import Spinner from "../components/Spinner";
 
 const Edit = () => {
   // fetch the post
@@ -37,6 +37,44 @@ const Edit = () => {
     fetchFood();
   }, []);
 
+  // upload photot to cloudinary
+  const [loadingPhoto, setLoadingPhoto] = useState(false);
+  const postPhoto = async (pic) => {
+    if (pic === null || undefined) {
+      toast.error("Please select photo");
+      return;
+    }
+
+    // Compress the image
+    const options = {
+      maxSizeMB: 1, // Adjust the maximum size of the compressed image
+      maxWidthOrHeight: 1920, // Adjust the maximum width or height of the compressed image
+      useWebWorker: true, // Use Web Worker for better performance
+    };
+
+    try {
+      setLoadingPhoto(true);
+      const compressedFile = await imageCompression(pic, options);
+      const data = new FormData();
+      data.append("file", compressedFile);
+      data.append("upload_preset", "p2jnu3t2");
+      let res = await fetch(
+        "https://api.cloudinary.com/v1_1/ddqs3ukux/image/upload",
+        {
+          method: "POST",
+          body: data,
+        }
+      );
+      const urlData = await res.json();
+      setLoadingPhoto(false);
+      setImage(urlData.url);
+      toast.success("Uploaded Photo", { theme: "dark" });
+    } catch (error) {
+      setLoadingPhoto(false);
+      toast.error("Error uploading Photo", { theme: "dark" });
+    }
+  };
+
   // update
 
   const [showForm, setShowForm] = useState(false);
@@ -49,6 +87,7 @@ const Edit = () => {
   // const [loading, setLoading] = useState(false);
   const [available, setAvailable] = useState(true);
   const [vendor, setVendor] = useState(true);
+  const [onOffer, setOnOffer] = useState(true);
 
   const [updatetitle, setUpdateTitle] = useState("");
   const [updatevendor, setUpdateVendor] = useState("");
@@ -58,10 +97,12 @@ const Edit = () => {
   const [updateimage, setUpdateImage] = useState("");
   const [updatequantity, setUpdateQuantity] = useState(1);
   const [updateavailable, setUpdateAvailable] = useState(true);
+  const [updateonOffer, setUpdateonOffer] = useState(true);
 
   useEffect(() => {
     setTitle(updatetitle);
     setVendor(updatevendor);
+    setOnOffer(updateonOffer);
     setPrice(uodateprice);
     setDescription(updatedescription);
     setCategory(updatecategory);
@@ -93,6 +134,7 @@ const Edit = () => {
         image,
         quantity,
         available,
+        onOffer,
       };
       const response = await axios.put("/food/edit/" + id, dataToSend);
       if (response) {
@@ -126,6 +168,7 @@ const Edit = () => {
                   setUpdateImage(item.image);
                   setUpdateQuantity(item.quantity);
                   setUpdateAvailable(item.available);
+                  setUpdateonOffer(item.onOffer);
                 }}
               >
                 Click Here To Update {item.title}
@@ -197,6 +240,21 @@ const Edit = () => {
                       </select>
                     </div>
                     <div className="flex flex-col gap-[10px] mb-[20px]">
+                      <label htmlFor="onOffer">Update onOffer</label>
+                      <select
+                        name="onOffer"
+                        id="onOffer"
+                        className="bg-transparent border border-zinc-500 p-[6px] rounded-lg"
+                        value={onOffer}
+                        onChange={(e) => setOnOffer(e.target.value)}
+                        required
+                      >
+                        <option value="">Choose</option>
+                        <option value="yes">Yes</option>
+                        <option value="no">No</option>
+                      </select>
+                    </div>
+                    <div className="flex flex-col gap-[10px] mb-[20px]">
                       <label htmlFor="vendor">Update Food Vendor</label>
                       <select
                         name="vendor"
@@ -249,24 +307,40 @@ const Edit = () => {
                         <option value="false">False</option>
                       </select>
                     </div>
-                    <div className="flex flex-col gap-[10px] mb-[20px]">
-                      <label htmlFor="image">Enter Image URL</label>
-                      <input
-                        type="text"
-                        id="image"
-                        placeholder="Enter image url"
-                        className="bg-transparent border border-zinc-500 p-[6px] rounded-lg"
-                        value={image}
-                        onChange={(e) => setImage(e.target.value)}
-                        required
-                      />
-                    </div>
-                    <div className="flex justify-end mb-[20px]">
-                      <img
-                        src={item.image}
-                        alt=""
-                        className="h-16 w-16 object-contain"
-                      />
+                    {/* upload image */}
+                    <div className="flex flex-col items-start gap-[20px] sm:gap-0 sm:flex-row sm:items-center mt-[20px] mb-[20px]  px-[5px] rounded-lg">
+                      <div className="flex flex-col gap-2 mt-[20px]">
+                        <label
+                          htmlFor="mainPhoto"
+                          className="flex items-center gap-[20px] flex-wrap"
+                        >
+                          <p>Update Photo</p>
+                          <div className="flex flex-col items-center">
+                            {loadingPhoto ? (
+                              <Spinner message="uploading ..." />
+                            ) : (
+                              <img
+                                src={
+                                  image
+                                    ? image
+                                    : "https://pixel-share-25.netlify.app/assets/preview-35b286f0.png"
+                                }
+                                alt=""
+                                className="w-[100px] h-[100px] object-cover"
+                              />
+                            )}
+                          </div>
+                        </label>
+                        <input
+                          type="file"
+                          placeholder="Add Image"
+                          accept="image/*"
+                          onChange={(e) => postPhoto(e.target.files[0])}
+                          required
+                          id="mainPhoto"
+                          className="hidden"
+                        />
+                      </div>
                     </div>
                     <div>
                       {loading ? (

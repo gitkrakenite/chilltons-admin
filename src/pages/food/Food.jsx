@@ -166,9 +166,9 @@ const Food = () => {
 
       {!searchText && (
         <div className="flex justify-between items-center px-1 sm:px-2 gap-3 flex-wrap">
-          <div>
+          <Link to="/">
             <img src={logo} alt="" className="w-16 h-16" />
-          </div>
+          </Link>
           <div className="flex gap-[20px] items-center ">
             <Link to="/drinks">
               <p>DRINKS</p>
